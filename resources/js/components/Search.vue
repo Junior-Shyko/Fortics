@@ -53,12 +53,12 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">Tipo</label>
-                        <select name="type" id="type" v-model="type" class="form-control">
-                            <option value="--" selected>--Selecione--</option>
-                            <option value="ML">Pet</option>
-                            <option value="L">Retornável</option>
-                            <option value="L">Garrafa</option>
-                            <option value="L">Lata</option>
+                        <select name="type" id="type" v-model="type" :required="true"  class="form-control">
+                           
+                            <option value="Pet">Pet</option>
+                            <option value="Retornável">Retornável</option>
+                            <option value="Garrafa">Garrafa</option>
+                            <option value="Lata">Lata</option>
                         </select>
                     </div>
                 </div>
@@ -89,14 +89,17 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="control-label">Estoque</label>
-                        <input class="form-control" v-model="stock" type="number" placeholder="Enter full name">
+                        <input class="form-control" v-model="stoke" type="number" placeholder="Enter full name">
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+            <button type="button" class="btn btn-primary" id="btn_save_refri" v-on:click="addRefri();">
+                <i class="fa fa-save"></i>
+                Cadastrar
+            </button>
         </div>
         </div>
     </div>
@@ -109,15 +112,33 @@
     export default {
         data(){
             return {
-                brand: null
+                brand: null,
+                type: null,
+                flavor: null,
+                litrage: null,
+                value: null,
+                stoke: null
             }
         },
         methods:{
             addRefri: function(){
-
+                axios.post('http://172.19.0.3:3000/refri',{
+                    brand: this.brand,
+                    type: this.type,
+                    flavor: this.flavor,
+                    litrage: this.litrage,
+                    value: this.value,
+                    stoke: this.stoke
+                }).then(function(response){
+                    alert('cadastrado com sucesso');
+                }).catch(function(response){
+                    console.log('Erro: '.response);
+                })
             },
             onBlur: function(){
-                alert('O Campo Marca precisa está preenchido.');
+                if(this.brand == ""){
+                    alert('O Campo Marca precisa está preenchido.');
+                }
             }
         },
         mounted() {

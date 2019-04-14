@@ -1968,16 +1968,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      brand: null
+      brand: null,
+      type: null,
+      flavor: null,
+      litrage: null,
+      value: null,
+      stoke: null
     };
   },
   methods: {
-    addRefri: function addRefri() {},
+    addRefri: function addRefri() {
+      axios.post('http://172.19.0.3:3000/refri', {
+        brand: this.brand,
+        type: this.type,
+        flavor: this.flavor,
+        litrage: this.litrage,
+        value: this.value,
+        stoke: this.stoke
+      }).then(function (response) {
+        alert('cadastrado com sucesso');
+      })["catch"](function (response) {
+        console.log('Erro: '.response);
+      });
+    },
     onBlur: function onBlur() {
-      alert('O Campo Marca precisa está preenchido.');
+      if (this.brand == "") {
+        alert('O Campo Marca precisa está preenchido.');
+      }
     }
   },
   mounted: function mounted() {
@@ -37495,7 +37518,7 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { name: "type", id: "type" },
+                          attrs: { name: "type", id: "type", required: true },
                           on: {
                             change: function($event) {
                               var $$selectedVal = Array.prototype.filter
@@ -37513,25 +37536,19 @@ var render = function() {
                           }
                         },
                         [
-                          _c(
-                            "option",
-                            { attrs: { value: "--", selected: "" } },
-                            [_vm._v("--Selecione--")]
-                          ),
-                          _vm._v(" "),
-                          _c("option", { attrs: { value: "ML" } }, [
+                          _c("option", { attrs: { value: "Pet" } }, [
                             _vm._v("Pet")
                           ]),
                           _vm._v(" "),
-                          _c("option", { attrs: { value: "L" } }, [
+                          _c("option", { attrs: { value: "Retornável" } }, [
                             _vm._v("Retornável")
                           ]),
                           _vm._v(" "),
-                          _c("option", { attrs: { value: "L" } }, [
+                          _c("option", { attrs: { value: "Garrafa" } }, [
                             _vm._v("Garrafa")
                           ]),
                           _vm._v(" "),
-                          _c("option", { attrs: { value: "L" } }, [
+                          _c("option", { attrs: { value: "Lata" } }, [
                             _vm._v("Lata")
                           ])
                         ]
@@ -37667,8 +37684,8 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.stock,
-                            expression: "stock"
+                            value: _vm.stoke,
+                            expression: "stoke"
                           }
                         ],
                         staticClass: "form-control",
@@ -37676,13 +37693,13 @@ var render = function() {
                           type: "number",
                           placeholder: "Enter full name"
                         },
-                        domProps: { value: _vm.stock },
+                        domProps: { value: _vm.stoke },
                         on: {
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.stock = $event.target.value
+                            _vm.stoke = $event.target.value
                           }
                         }
                       })
@@ -37691,7 +37708,33 @@ var render = function() {
                 ])
               ]),
               _vm._v(" "),
-              _vm._m(2)
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Sair")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button", id: "btn_save_refri" },
+                    on: {
+                      click: function($event) {
+                        return _vm.addRefri()
+                      }
+                    }
+                  },
+                  [
+                    _c("i", { staticClass: "fa fa-save" }),
+                    _vm._v("\n                Cadastrar\n            ")
+                  ]
+                )
+              ])
             ])
           ]
         )
@@ -37791,27 +37834,6 @@ var staticRenderFns = [
           }
         },
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-secondary",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("Close")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "button" } },
-        [_vm._v("Save changes")]
       )
     ])
   }

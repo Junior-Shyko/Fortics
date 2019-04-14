@@ -10,5 +10,5 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::resource('/' , 'RefrigerantController');
+Route::get('/', 'RefrigerantController@index');
+Route::resource('refri' , 'RefrigerantController');

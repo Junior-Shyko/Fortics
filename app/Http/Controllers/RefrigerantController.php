@@ -36,7 +36,14 @@ class RefrigerantController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request['created_at'] = date('Y-m-d H:i:s');
+            $request['updated_at'] = date('Y-m-d H:i:s');
+            Refrigerant::create($request->all());
+            return response()->json(['message' => 'success',200],200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'error: '.$th->getMessage(), 200], 200);
+        }
     }
 
     /**
