@@ -19,6 +19,7 @@ mix.scripts([
    'resources/js/popper.min.js',
    'resources/js/main.js',
    'resources/js/pace.js',
+   'resources/js/jquery.mask.js'
 ], 'public/js/main.js');
 
 mix.styles([

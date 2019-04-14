@@ -75,9 +75,14 @@ class RefrigerantController extends Controller
      * @param  \Fortics\Refrigerant  $refrigerant
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Refrigerant $refrigerant)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            Refrigerant::where('id' , $id)->update($request->all());
+            return response()->json(['message' => 'success'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'error'], 400);
+        }
     }
 
     /**
@@ -93,7 +98,7 @@ class RefrigerantController extends Controller
 
     public function getAll()
     {
-        //return DB::table('refrigerants')->paginate(15);
-        return Refrigerant::all();
+        return DB::table('refrigerants')->orderBy('id' , 'desc')->get();
+        
     }
 }

@@ -31,79 +31,7 @@
             </div>
         </div>
     </div>
-      <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Cadastrar Refrigerante</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Marca</label>
-                        <input class="form-control" name="brand" v-model="brand" @blur="onBlur" 
-                        type="text" id="brand" placeholder="Ex: Coca-cola, Fanta">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Tipo</label>
-                        <select name="type" id="type" v-model="type" :required="true"  class="form-control">
-                           
-                            <option value="Pet">Pet</option>
-                            <option value="Retornável">Retornável</option>
-                            <option value="Garrafa">Garrafa</option>
-                            <option value="Lata">Lata</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Sabor</label>
-                        <input class="form-control" v-model="flavor"
-                         type="text" placeholder="Ex: Limão, Cola, Laranja">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Medida</label>
-                        
-                        <select name="litragem" id="litragem" v-model="litrage"  class="form-control">
-                            <option value="--" selected>--Selecione--</option>
-                            <option value="ML">ML (milímetro)</option>
-                            <option value="L">L (litro)</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Valor</label>
-                        <input class="form-control" v-model="value" type="text" placeholder="Enter full name">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label">Estoque</label>
-                        <input class="form-control" v-model="stoke" type="number" placeholder="Enter full name">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-            <button type="button" class="btn btn-primary" id="btn_save_refri" v-on:click="addRefri();">
-                <i class="fa fa-save"></i>
-                Cadastrar
-            </button>
-        </div>
-        </div>
-    </div>
-    </div>
+
 </div>        
     
 </template>
@@ -121,25 +49,7 @@
             }
         },
         methods:{
-            addRefri: function(){
-                axios.post('http://172.19.0.3:3000/refri',{
-                    brand: this.brand,
-                    type: this.type,
-                    flavor: this.flavor,
-                    litrage: this.litrage,
-                    value: this.value,
-                    stoke: this.stoke
-                }).then(function(response){
-                    alert('cadastrado com sucesso');
-                }).catch(function(response){
-                    console.log('Erro: '.response);
-                })
-            },
-            onBlur: function(){
-                if(this.brand == ""){
-                    alert('O Campo Marca precisa está preenchido.');
-                }
-            }
+            
         },
         mounted() {
             console.log('Component Search.')
@@ -147,15 +57,7 @@
     }
 
 $(document).ready(function () {
-    $("#exampleModal").modal('show');
-    // $("#brand").blur(function (e) { 
-    //     e.preventDefault();
-    //     if($("#brand").val() == "")
-    //     {
-    //         alert("Preencha a marca");
-    //         //adicionar a classe is-invalid no form
-    //     }
-        
-    // });
+    //$("#exampleModal").modal('show');
+    //$('#valueRefri').mask('000.000.000.000.000,00', {reverse: true});
 });    
 </script>
