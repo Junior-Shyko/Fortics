@@ -1973,7 +1973,7 @@ __webpack_require__.r(__webpack_exports__);
     allRefri: function allRefri() {
       var _this = this;
 
-      axios.get('http://172.19.0.3:3000/api/all-refri').then(function (response) {
+      axios.get(domain_complet + 'api/all-refri').then(function (response) {
         var refri = response.data;
 
         if (refri.length) {
@@ -1986,7 +1986,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     addRefri: function addRefri() {
-      axios.post('http://172.19.0.3:3000/refri', {
+      axios.post(domain_complet + 'refri', {
         brand: this.brand,
         type: this.type,
         flavor: this.flavor,
@@ -2022,7 +2022,7 @@ __webpack_require__.r(__webpack_exports__);
       console.log(item);
       axios({
         method: 'put',
-        url: 'http://172.19.0.3:3000/refri/' + item,
+        url: domain_complet + 'refri/' + item,
         data: $("#formEditRefri").serialize()
       }).then(function (response) {
         alert('atualizado com sucesso');

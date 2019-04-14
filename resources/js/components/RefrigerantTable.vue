@@ -207,7 +207,7 @@ export default {
   },
   methods: {
     allRefri: function(){
-      axios.get('http://172.19.0.3:3000/api/all-refri')
+      axios.get(domain_complet + 'api/all-refri')
       .then(response => {
         let refri = response.data
         
@@ -223,7 +223,7 @@ export default {
       });
     },
     addRefri: function(){
-        axios.post('http://172.19.0.3:3000/refri',{
+        axios.post(domain_complet + 'refri',{
             brand: this.brand,
             type: this.type,
             flavor: this.flavor,
@@ -251,8 +251,7 @@ export default {
       this.flavor     = item.flavor;
       this.litrage    = item.litrage;
       this.value      = item.value;
-      this.stoke      = item.stoke;
-      
+      this.stoke      = item.stoke;      
       $("#modalEditRefri").modal('show');
     },
     updateRefri: function(item){
@@ -260,7 +259,7 @@ export default {
       console.log(item);
       axios({
         method: 'put',
-        url: 'http://172.19.0.3:3000/refri/'+item,
+        url: domain_complet + 'refri/'+item,
         data: $("#formEditRefri").serialize()
       }).then(function(response){
         alert('atualizado com sucesso');
