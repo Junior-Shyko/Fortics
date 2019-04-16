@@ -33,9 +33,30 @@
     </div>
 
     <div class="" >
-        <h3 class="tile-title">{{infoTitle}}</h3>
-        <p class="text-info"><strong>{{totalRefri}}</strong> </p>
+        
+    <div class="tile">
+        <div class="row">
+           
+            <div class="col-md-12">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h3 class="tile-title">{{infoTitle}}</h3>
+                    <p class="text-info"><strong>{{totalRefri}}</strong> </p>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="#" class="btn btn-danger float-right" v-on:click="deleteMilti();">
+                        Excluir Selecionados
+                        </a>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </div>
         <div class="tile" v-for='refriItem in list' :key="refriItem.id">
+           
             <div class="tile-title-w-btn">
                 <h3 class="title"><strong>Marca: </strong> {{refriItem.brand}}</h3>
                 <div class="row">
@@ -50,7 +71,7 @@
                     <div class="col-md-4">
                         <div class="animated-checkbox">
                             <label>
-                            <input type="checkbox"><span class="label-text"></span>
+                            <input type="checkbox" v-bind:id="refriItem.id" v-bind:value="refriItem.id" v-model="checkedNames"><span class="label-text"></span>
                             </label>
                         </div>
                     </div>
@@ -98,7 +119,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Sabor</label>
                                     <input class="form-control" v-model="flavor"
-                                        type="text" value="Cola" 
+                                        type="text"
                                         placeholder="Ex: Limão, Cola, Laranja">
                                 </div>
                             </div>
@@ -106,14 +127,14 @@
                                 <div class="form-group">
                                     <label class="control-label">Litragem</label>                        
                                     <input class="form-control" v-model="litrage"
-                                        type="text" value="600 ml" placeholder="Ex: 600 ml, 1L, 1.5 L">
+                                        type="text" placeholder="Ex: 600 ml, 1L, 1.5 L">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Valor</label>
-                                    <input class="form-control valueRefri" v-model="value" type="text" 
-                                        placeholder="R$ 0,00">
+                                    <input class="form-control valueRefri" id="" 
+                                    v-model="value" type="text" placeholder="R$ 0,00">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -231,7 +252,8 @@ export default {
       searchFilter: null,
       searchDescription: null,
       infoTitle: 'Lista de Refrigerantes',
-      totalRefri: ''
+      totalRefri: '',
+      checkedNames: []
     }
   },
   methods: {
@@ -353,19 +375,39 @@ export default {
       .catch(function (error) {
         console.log(error);
       });
-    }
-   
+    },
+    deleteMilti: function(){
+        Vue.swal({
+        title: 'Excluir',
+        text: "Deseja realmente escluir esses Refrigerantes?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim'
+        }).then((result) => {
+            axios.post(domain_complet+'/api/deleteMultiply', {
+                id: this.checkedNames
+            }).then(response => {
+                this.allRefri();
+                Vue.swal({
+                    type: 'success',
+                    title: 'Excluido',
+                    text: 'Refrigerante excluido.'
+                });
+            })        
+        }).catch(response => {
+            console.log('error');
+        })
+    }   
   },
   created(){
-    this.allRefri()
-       
-  },
-  mounted() {
-      console.log('Component Table.')
+    this.allRefri()    
   }
 }
 $(document).ready(function () {
-  $(".valueRefri").mask('000.000.000.000.000,00', {reverse: true});
-  console.log('iniciou');
+
+ $('.valueRefri').mask("#.##0,00", {reverse: false});
+
 });
 </script>

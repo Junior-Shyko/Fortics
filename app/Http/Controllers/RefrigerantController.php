@@ -19,8 +19,8 @@ class RefrigerantController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $litrage = str_replace(' ','',$request['litrage']);//retirand os espaços ex: 600 ml => 600ml
+    {           
+        $litrage = str_replace(' ','',$request['litrage']);//retirando os espaços ex: 600 ml => 600ml
         //PROCURANDO LITRAGEM DO MESMO VALOR NO BANCO
         $searchRefri = Refrigerant::where([
             ['brand','=',$request['brand'] ],
@@ -37,7 +37,7 @@ class RefrigerantController extends Controller
         //EXECULTADO
         try {
             $request['litrage'] = strtolower($litrage);// CONVERTENDO PARA TUDO MINUSCULA
-            $request['value'] = Refrigerant::money_real($request['value']);//CONVERTENDO MOEDA REAL PARA DOUBLE
+            //$request['value'] = Refrigerant::money_real($request['value']);//CONVERTENDO MOEDA REAL PARA DOUBLE
             $request['created_at'] = date('Y-m-d H:i:s');
             $request['updated_at'] = date('Y-m-d H:i:s');
             Refrigerant::create($request->all());
@@ -56,10 +56,11 @@ class RefrigerantController extends Controller
      */
     public function update(Request $request, $id)
     {
+       
         try {
             $litrage = str_replace(' ','',$request['litrage']);//RETIRANDO OS ESPAÇOS
             $request['litrage'] = strtolower($litrage);//MINISCULAS
-            $request['value']   = Refrigerant::money_real($request['value']);//CONVERTENDO MOEDA REAL PARA DOUBLE
+            //$request['value']   = Refrigerant::money_real($request['value']);//CONVERTENDO MOEDA REAL PARA DOUBLE
             Refrigerant::where('id' , $id)->update($request->all());
             return response()->json(['message' => 'success'], 200);
         } catch (\Throwable $th) {
@@ -83,6 +84,20 @@ class RefrigerantController extends Controller
         }
     }
 
+    public function destroyMultiply(Request $request)
+    {
+       
+        try {
+            //FAZENDO UM LOOPS DO ID E EXCLUINDO
+            foreach ($request['id'] as $value) {
+                Refrigerant::where('id' ,$value)->delete();
+            }
+            return response()->json(['message' => 'success'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'error', 'textMessage' => $th->getMessage()], 400);
+        }
+    }
+
     public function getAll()
     {
         //TODOS OS REFRIGERANTES
@@ -99,4 +114,6 @@ class RefrigerantController extends Controller
             return response()->json(['message' => 'error'], 400);
         }
     }
+
+
 }

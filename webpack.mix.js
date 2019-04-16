@@ -18,8 +18,8 @@ mix.scripts([
    'resources/js/jquery-3.2.min.js',
    'resources/js/popper.min.js',
    'resources/js/main.js',
-   'resources/js/pace.js',
-   'resources/js/jquery.mask.js',   
+   'resources/js/jquery.mask.min.js',
+   'resources/js/pace.js'  
 ], 'public/js/main.js');
 
 mix.styles([

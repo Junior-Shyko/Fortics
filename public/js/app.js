@@ -1980,6 +1980,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1994,7 +2015,8 @@ __webpack_require__.r(__webpack_exports__);
       searchFilter: null,
       searchDescription: null,
       infoTitle: 'Lista de Refrigerantes',
-      totalRefri: ''
+      totalRefri: '',
+      checkedNames: []
     };
   },
   methods: {
@@ -2121,20 +2143,43 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    deleteMilti: function deleteMilti() {
+      var _this6 = this;
+
+      Vue.swal({
+        title: 'Excluir',
+        text: "Deseja realmente escluir esses Refrigerantes?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sim'
+      }).then(function (result) {
+        axios.post(domain_complet + '/api/deleteMultiply', {
+          id: _this6.checkedNames
+        }).then(function (response) {
+          _this6.allRefri();
+
+          Vue.swal({
+            type: 'success',
+            title: 'Excluido',
+            text: 'Refrigerante excluido.'
+          });
+        });
+      })["catch"](function (response) {
+        console.log('error');
+      });
     }
   },
   created: function created() {
     this.allRefri();
-  },
-  mounted: function mounted() {
-    console.log('Component Table.');
   }
 });
 $(document).ready(function () {
-  $(".valueRefri").mask('000.000.000.000.000,00', {
-    reverse: true
+  $('.valueRefri').mask("#.##0,00", {
+    reverse: false
   });
-  console.log('iniciou');
 });
 
 /***/ }),
@@ -38238,12 +38283,44 @@ var render = function() {
       "div",
       {},
       [
-        _c("h3", { staticClass: "tile-title" }, [
-          _vm._v(_vm._s(_vm.infoTitle))
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "text-info" }, [
-          _c("strong", [_vm._v(_vm._s(_vm.totalRefri))])
+        _c("div", { staticClass: "tile" }, [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c("div", { staticClass: "page-header" }, [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c("h3", { staticClass: "tile-title" }, [
+                      _vm._v(_vm._s(_vm.infoTitle))
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "text-info" }, [
+                      _c("strong", [_vm._v(_vm._s(_vm.totalRefri))])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-6" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-danger float-right",
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteMilti()
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        Excluir Selecionados\n                        "
+                        )
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
         ]),
         _vm._v(" "),
         _vm._l(_vm.list, function(refriItem) {
@@ -38290,7 +38367,52 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _vm._m(1, true)
+                _c("div", { staticClass: "col-md-4" }, [
+                  _c("div", { staticClass: "animated-checkbox" }, [
+                    _c("label", [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.checkedNames,
+                            expression: "checkedNames"
+                          }
+                        ],
+                        attrs: { type: "checkbox", id: refriItem.id },
+                        domProps: {
+                          value: refriItem.id,
+                          checked: Array.isArray(_vm.checkedNames)
+                            ? _vm._i(_vm.checkedNames, refriItem.id) > -1
+                            : _vm.checkedNames
+                        },
+                        on: {
+                          change: function($event) {
+                            var $$a = _vm.checkedNames,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = refriItem.id,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  (_vm.checkedNames = $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  (_vm.checkedNames = $$a
+                                    .slice(0, $$i)
+                                    .concat($$a.slice($$i + 1)))
+                              }
+                            } else {
+                              _vm.checkedNames = $$c
+                            }
+                          }
+                        }
+                      }),
+                      _c("span", { staticClass: "label-text" })
+                    ])
+                  ])
+                ])
               ])
             ]),
             _vm._v(" "),
@@ -38345,7 +38467,7 @@ var render = function() {
               { staticClass: "modal-dialog", attrs: { role: "document" } },
               [
                 _c("div", { staticClass: "modal-content" }, [
-                  _vm._m(2),
+                  _vm._m(1),
                   _vm._v(" "),
                   _c("div", { staticClass: "modal-body" }, [
                     _c("div", { staticClass: "row" }, [
@@ -38465,7 +38587,6 @@ var render = function() {
                             staticClass: "form-control",
                             attrs: {
                               type: "text",
-                              value: "Cola",
                               placeholder: "Ex: Limão, Cola, Laranja"
                             },
                             domProps: { value: _vm.flavor },
@@ -38499,7 +38620,6 @@ var render = function() {
                             staticClass: "form-control",
                             attrs: {
                               type: "text",
-                              value: "600 ml",
                               placeholder: "Ex: 600 ml, 1L, 1.5 L"
                             },
                             domProps: { value: _vm.litrage },
@@ -38531,7 +38651,11 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control valueRefri",
-                            attrs: { type: "text", placeholder: "R$ 0,00" },
+                            attrs: {
+                              id: "",
+                              type: "text",
+                              placeholder: "R$ 0,00"
+                            },
                             domProps: { value: _vm.value },
                             on: {
                               input: function($event) {
@@ -38633,7 +38757,7 @@ var render = function() {
               { staticClass: "modal-dialog", attrs: { role: "document" } },
               [
                 _c("div", { staticClass: "modal-content" }, [
-                  _vm._m(3),
+                  _vm._m(2),
                   _vm._v(" "),
                   _c(
                     "form",
@@ -38896,7 +39020,7 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _vm._m(4)
+                      _vm._m(3)
                     ]
                   )
                 ])
@@ -38931,19 +39055,6 @@ var staticRenderFns = [
           _vm._v("\n            Cadastrar\n            ")
         ]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("div", { staticClass: "animated-checkbox" }, [
-        _c("label", [
-          _c("input", { attrs: { type: "checkbox" } }),
-          _c("span", { staticClass: "label-text" })
-        ])
-      ])
     ])
   },
   function() {

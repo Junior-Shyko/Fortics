@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::get('all-refri' , 'RefrigerantController@getAll');
 Route::post('search' , 'RefrigerantController@search');
+Route::post('deleteMultiply' , 'RefrigerantController@destroyMultiply');
 Route::resource('refri' , 'RefrigerantController');
