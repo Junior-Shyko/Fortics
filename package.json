@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "jquery-mask-plugin": "^1.14.15",
-        "vue-infinite-loading": "^2.4.4"
+        "vue-infinite-loading": "^2.4.4",
+        "vue-sweetalert2": "^1.6.4"
     }
 }

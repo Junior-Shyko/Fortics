@@ -17,4 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('all-refri' , 'RefrigerantController@getAll');
+Route::post('search' , 'RefrigerantController@search');
 Route::resource('refri' , 'RefrigerantController');

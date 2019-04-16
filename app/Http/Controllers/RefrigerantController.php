@@ -18,25 +18,25 @@ class RefrigerantController extends Controller
         return view('refri.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
+        $litrage = str_replace(' ','',$request['litrage']);//retirand os espaços ex: 600 ml => 600ml
+        //PROCURANDO LITRAGEM DO MESMO VALOR NO BANCO
+        $searchRefri = Refrigerant::where([
+            ['brand','=',$request['brand'] ],
+            ['litrage' , '=' , $litrage]
+        ])->get();
+        //SE TIVER, ENVIA MENSAGEM DE ERRO.
+        if($searchRefri->count() > 0)
+        {
+            return response()->json([
+                'message' => 'erro', 
+                'status' => 400, 
+                'messageText' => 'Já Existe um refrigerante com essa Marca e Litragem'], 400);
+        }
+        //EXECULTADO
         try {
+            $request['litrage'] = strtolower($litrage);// CONVERTENDO PARA TUDO MINUSCULA
             $request['created_at'] = date('Y-m-d H:i:s');
             $request['updated_at'] = date('Y-m-d H:i:s');
             Refrigerant::create($request->all());
@@ -44,28 +44,6 @@ class RefrigerantController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['message' => 'error: '.$th->getMessage(), 200], 200);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \Fortics\Refrigerant  $refrigerant
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Refrigerant $refrigerant)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \Fortics\Refrigerant  $refrigerant
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Refrigerant $refrigerant)
-    {
-        //
     }
 
     /**
@@ -78,6 +56,8 @@ class RefrigerantController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            $litrage = str_replace(' ','',$request['litrage']);//RETIRANDO OS ESPAÇOS
+            $request['litrage'] = strtolower($litrage);//MINISCULAS
             Refrigerant::where('id' , $id)->update($request->all());
             return response()->json(['message' => 'success'], 200);
         } catch (\Throwable $th) {
@@ -91,14 +71,30 @@ class RefrigerantController extends Controller
      * @param  \Fortics\Refrigerant  $refrigerant
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Refrigerant $refrigerant)
+    public function destroy($id)
     {
-        //
+        try {
+            Refrigerant::where('id' , $id)->delete();
+            return response()->json(['message' => 'success'],200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'error'], 400);
+        }
     }
 
     public function getAll()
     {
-        return DB::table('refrigerants')->orderBy('id' , 'desc')->get();
-        
+        //TODOS OS REFRIGERANTES
+        return DB::table('refrigerants')->orderBy('id' , 'desc')->get();        
+    }
+
+    public function search(Request $request)
+    {
+        try {
+            //PESQUISANDO NO BANCO POR QUALQUER ESCOLHA E SUA DESCRIÇÃO
+            $refri = Refrigerant::where($request['searchFilter'] , 'like', '%'.$request['searchDescription'].'%')->get();
+            return $refri;
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'error'], 400);
+        }
     }
 }

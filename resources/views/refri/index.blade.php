@@ -19,10 +19,7 @@
     </div>
 
     <div class="row">
-
-        <search></search>  
-
-        <div class="clearfix"></div>
+       
       
         <refritable></refritable>
 
