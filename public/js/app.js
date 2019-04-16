@@ -2131,9 +2131,10 @@ __webpack_require__.r(__webpack_exports__);
   }
 });
 $(document).ready(function () {
-  $("#valueRefri").mask('000.000.000.000.000,00', {
+  $(".valueRefri").mask('000.000.000.000.000,00', {
     reverse: true
   });
+  console.log('iniciou');
 });
 
 /***/ }),
@@ -38307,7 +38308,16 @@ var render = function() {
               _c("br"),
               _vm._v(" "),
               _c("strong", [_vm._v("Valor: ")]),
-              _vm._v(" " + _vm._s(refriItem.value) + " "),
+              _vm._v(
+                " " +
+                  _vm._s(
+                    refriItem.value.toLocaleString("pt-br", {
+                      style: "currency",
+                      currency: "BRL"
+                    })
+                  ) +
+                  " "
+              ),
               _c("br"),
               _vm._v(" "),
               _c("strong", [_vm._v("Estoque: ")]),
@@ -38520,12 +38530,8 @@ var render = function() {
                                 expression: "value"
                               }
                             ],
-                            staticClass: "form-control",
-                            attrs: {
-                              type: "text",
-                              id: "valueRefri",
-                              placeholder: "R$ 0,00"
-                            },
+                            staticClass: "form-control valueRefri",
+                            attrs: { type: "text", placeholder: "R$ 0,00" },
                             domProps: { value: _vm.value },
                             on: {
                               input: function($event) {
@@ -38828,11 +38834,10 @@ var render = function() {
                                     expression: "value"
                                   }
                                 ],
-                                staticClass: "form-control",
+                                staticClass: "form-control valueRefri",
                                 attrs: {
                                   name: "value",
                                   type: "text",
-                                  id: "valueRefri",
                                   placeholder: "R$ 0,00"
                                 },
                                 domProps: { value: _vm.value },

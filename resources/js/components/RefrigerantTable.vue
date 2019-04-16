@@ -60,7 +60,7 @@
                 <strong>Tipo: </strong> {{refriItem.type}} <br/>
                 <strong>Sabor: </strong> {{refriItem.flavor}} <br/>
                 <strong>Litragem: </strong> {{refriItem.litrage}} <br/>
-                <strong>Valor: </strong> {{refriItem.value}} <br/>
+                <strong>Valor: </strong> {{refriItem.value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}} <br/>
                 <strong>Estoque: </strong> {{refriItem.stoke}} <br/>
             </div>
         </div>
@@ -112,8 +112,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label">Valor</label>
-                                    <input class="form-control" v-model="value" type="text" 
-                                        id="valueRefri" placeholder="R$ 0,00">
+                                    <input class="form-control valueRefri" v-model="value" type="text" 
+                                        placeholder="R$ 0,00">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -184,8 +184,8 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">Valor</label>
-                                        <input class="form-control" name="value" v-model="value" type="text" 
-                                            id="valueRefri" placeholder="R$ 0,00">
+                                        <input class="form-control valueRefri" name="value" v-model="value" type="text" 
+                                           placeholder="R$ 0,00">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -365,6 +365,7 @@ export default {
   }
 }
 $(document).ready(function () {
-  $("#valueRefri").mask('000.000.000.000.000,00', {reverse: true});
+  $(".valueRefri").mask('000.000.000.000.000,00', {reverse: true});
+  console.log('iniciou');
 });
 </script>
