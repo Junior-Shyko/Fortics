@@ -55,7 +55,7 @@
             </div>
         </div>
     </div>
-        <div class="tile" v-for='refriItem in list' :key="refriItem.id">
+        <div class="tile" v-for='refriItem in list.data' :key="refriItem.id">
            
             <div class="tile-title-w-btn">
                 <h3 class="title"><strong>Marca: </strong> {{refriItem.brand}}</h3>
@@ -71,7 +71,9 @@
                     <div class="col-md-4">
                         <div class="animated-checkbox">
                             <label>
-                            <input type="checkbox" v-bind:id="refriItem.id" v-bind:value="refriItem.id" v-model="checkedNames"><span class="label-text"></span>
+                            <input type="checkbox" v-bind:id="refriItem.id" v-bind:value="refriItem.id"
+                             v-model="checkedNames">
+                            <span class="label-text"></span>
                             </label>
                         </div>
                     </div>
@@ -85,6 +87,7 @@
                 <strong>Estoque: </strong> {{refriItem.stoke}} <br/>
             </div>
         </div>
+        <pagination :data="list" @pagination-change-page="allRefri"></pagination>
         <!-- Modal CADASTRO -->
         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -257,11 +260,12 @@ export default {
     }
   },
   methods: {
-    allRefri: function(){
-      axios.get(domain_complet + 'api/all-refri')
+    allRefri: function(page = 1){
+      axios.get(domain_complet + 'api/all-refri?page='+ page)
       .then(response => {
         this.list = response.data;
-        this.totalRefri = "Total encontrado: "+this.list.length;
+       
+        this.totalRefri = "Total encontrado: "+response.data.total;
       })
       .catch(function (error) {
         console.log(error);
@@ -344,33 +348,39 @@ export default {
       });
     },
     deleteRefri: function(id){
-      var conf = confirm("Deseja excluir esse refrigerante?");
-      if(conf == true){
-        axios.delete(domain_complet + 'refri/'+id ,{
-          id: this.id
-        }).then(response => {
-          this.allRefri();
-          Vue.swal({
-            type: 'success',
-            title: 'Excluido',
-            text: 'Refrigerante excluido.'
-          });
-        }).catch(function(response){
-          console.log(response)
+        Vue.swal({
+            title: 'Excluir',
+            text: "Deseja realmente excluir esse Refrigerante?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim'
+        }).then((result) => {
+            axios.post(domain_complet + 'refri/'+id, {
+                id: this.id
+            }).then(response => {
+                this.allRefri();
+                Vue.swal({
+                    type: 'success',
+                    title: 'Excluido',
+                    text: 'Refrigerante excluido.'
+                });
+            })        
+        }).catch(response => {
+            console.log('error');
         })
-      }
     },
-    searchRefri: function(){
+    searchRefri: function(page = 1){
       this.listAllRefri = false;    
       this.listSearch   = true;
       this.list = [];
-      axios.post(domain_complet+'api/search',{
+      axios.post(domain_complet+'api/search?page='+ page,{
         searchFilter      : this.searchFilter,
         searchDescription : this.searchDescription        
       }).then(response => {
         this.list = response.data;
-        console.log(this.list.length)
-        this.totalRefri = "Total encontrado: "+this.list.length;
+        this.totalRefri = "Total encontrado: "+this.list.total;
       })
       .catch(function (error) {
         console.log(error);
@@ -379,7 +389,7 @@ export default {
     deleteMilti: function(){
         Vue.swal({
         title: 'Excluir',
-        text: "Deseja realmente escluir esses Refrigerantes?",
+        text: "Deseja realmente excluir esses Refrigerantes?",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',

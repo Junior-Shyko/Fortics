@@ -101,14 +101,15 @@ class RefrigerantController extends Controller
     public function getAll()
     {
         //TODOS OS REFRIGERANTES
-        return DB::table('refrigerants')->orderBy('id' , 'desc')->get();        
+        $refri = DB::table('refrigerants')->paginate(10)->toArray();  
+        return response()->json($refri);      
     }
 
     public function search(Request $request)
     {
         try {
             //PESQUISANDO NO BANCO POR QUALQUER ESCOLHA E SUA DESCRIÇÃO
-            $refri = Refrigerant::where($request['searchFilter'] , 'like', '%'.$request['searchDescription'].'%')->get();
+            $refri = Refrigerant::where($request['searchFilter'] , 'like', '%'.$request['searchDescription'].'%')->paginate(10);
             return $refri;
         } catch (\Throwable $th) {
             return response()->json(['message' => 'error'], 400);

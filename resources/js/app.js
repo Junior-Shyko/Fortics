@@ -25,7 +25,7 @@ Vue.use(VueSweetalert2);
 
 Vue.component('search', require('./components/Search.vue').default);
 Vue.component('refritable', require('./components/RefrigerantTable.vue').default);
-Vue.component('InfiniteLoading', require('vue-infinite-loading').default);
+Vue.component('pagination', require('laravel-vue-pagination'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

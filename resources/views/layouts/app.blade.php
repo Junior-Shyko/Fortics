@@ -21,7 +21,7 @@
 
  </script>
   </head>
-  <body class="app sidebar-mini rtl">
+  <body class="app sidebar-mini rtl sidenav-toggled">
   <div  id="app">
     <!-- Navbar-->
     <header class="app-header"><a class="app-header__logo" href="index.html">FORTICS</a>
