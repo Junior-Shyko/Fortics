@@ -14,7 +14,7 @@ Verificar os seguintes instruções finais:
 * Acessar aplicação pelo IP: 192.168.99.100:3000 se estiver usando o Windows com Docker Toolbox;
 * Acessar o phpmyadmin pelo IP: 192.168.99.100:8081 se estiver usando o Windows com Docker Toolbox;
 * Se estiver usando o _Linux_ deve dá o comando `docker inspect ID_CONTAINER` "container appfortics" para saber qual o ip, em geral são os ips -**172.19.0.3:3000** , **172.20.0.3:3000** , **172.22.0.3:3000** e o phpmyadmin so altera o _3_ e coloca um _4_;
-* Para acessar o container via bash utilize `docker exec -it ID_CONTAINER bash` assim poderá dá o comando `npm run dev` para copilação do webpack por conta da permissão de usuário.
+* Para acessar o container via bash utilize `docker exec -it ID_CONTAINER bash` assim poderá dá o comando `npm install e npm run dev` para copilação do webpack por conta da permissão de usuário.
 
 
 
